@@ -1,0 +1,79 @@
+﻿@model SalesWeb.Models.SalesRecord
+
+@{
+    ViewData["Title"] = "Sales record details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+@{
+
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(Model => Model.Id)</th>
+                <th>@Html.DisplayNameFor(Model => Model.Date)</th>
+                <th>@Html.DisplayNameFor(Model => Model.Amount)</th>
+                <th>@Html.DisplayNameFor(Model => Model.Status)</th>
+                <th>@Html.DisplayNameFor(Model => Model.Seller.Name)</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Id)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(model => model.Date)
+                </td>
+
+
+                <td>R$
+                    @Html.DisplayFor(model => model.Amount)
+                </td>
+
+
+                <td>
+                    @{Model.Status = Model.Status;}
+                    <span class="@GetStatusColor(Model.Status) fw-bold"> @Html.DisplayFor(model => model.Status)</span>
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(model => model.Seller.Name)
+                </td>
+
+                <td class="text-center">
+                    <a type="button" class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                    <a type="button" class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+    </table>
+    <a class="btn btn-warning" asp-action="Index">Back to list</a>
+
+}
+@functions {
+    // Método para obter a classe de cor baseada no status
+    string GetStatusColor(SalesWeb.Models.Enums.SaleStatus status)
+    {
+        switch (status)
+        {
+            case SalesWeb.Models.Enums.SaleStatus.Pending:
+                return "text-warning";
+            case SalesWeb.Models.Enums.SaleStatus.Billed:
+                return "text-success";
+            case SalesWeb.Models.Enums.SaleStatus.Canceled:
+                return "text-danger";
+            default:
+                return ""; // caso padrão, sem classe específica
+        }
+    }
+}
